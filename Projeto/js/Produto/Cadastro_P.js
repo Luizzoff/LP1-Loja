@@ -38,7 +38,7 @@ formCadastroProduto.onsubmit = (evento) => {
 
 //#################### Funções Solicitadas Pelo HTML ####################
 function remover(codigo) {
-    if (confirm("Deseja realmente excluir esse produto?")){
+    if (confirm("Deseja realmente excluir?")){
         const ProdutoCTRL = new Controle_Produto();
         ProdutoCTRL.remover(codigo);
         exibirProdutos();
