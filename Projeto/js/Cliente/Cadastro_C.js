@@ -11,19 +11,28 @@ formCliente.onsubmit = (evento) => {
     dataNascimento = document.getElementById("dataNascimento").value;
     telefone = document.getElementById("telefone").value;
     email = document.getElementById("email").value;
-    //Chama Contorle
+    endereco = document.getElementById("endereco").value;
+    //Chama Controle
     const clienteCTRL = new Controle_Cliente();
-    if(clienteCTRL.validar(nome, cpf, genero, dataNascimento, telefone, email))
-    {
-        validaSelect.classList.remove('is-invalid');
-        validaInput.forEach(input => {
-            input.classList.remove('is-invalid');
-        });
-        formCliente.reset();
-        exibirClientes();
+    if(clienteCTRL.buscarCPF(cpf)) {
+        if(clienteCTRL.validar(nome, cpf, genero, dataNascimento, telefone, email, endereco))
+        {
+            validaSelect.classList.remove('is-invalid');
+            validaInput.forEach(input => {
+                input.classList.remove('is-invalid');
+            });
+            formCliente.reset();
+            exibirClientes();
+        }
+        else {
+            validaSelect.classList.add('is-invalid');
+            validaInput.forEach(input => {
+                input.classList.add('is-invalid');
+            });
+        }
     }
     else {
-        // formCliente.classList.add('was-validated');
+        alert("CPF ja existente!");
         validaSelect.classList.add('is-invalid');
         validaInput.forEach(input => {
             input.classList.add('is-invalid');
@@ -43,12 +52,15 @@ function remover(cpf) {
 
 function exibirClientes() {
     const clienteCTRL = new Controle_Cliente();
-    const listaClientes = clienteCTRL.buscar();
+    const listaClientes = clienteCTRL.buscarAll();
 
     const divTabela = document.getElementById('tabelaClientes');
     divTabela.innerHTML="";
     
     if (listaClientes.length > 0) {
+        divTabela.classList.remove('w-50');
+        divTabela.classList.add('w-100');
+
         const tabela = document.createElement('table');
         tabela.className = 'table table-striped table-hover';
 
@@ -61,20 +73,22 @@ function exibirClientes() {
                 <th> Data de Nascimento</th>
                 <th>Telefone</th>
                 <th>E-mail</th>
+                <th>Endereço</th>
                 <th>####</th>
             </tr>
         `;
 
         const corpo = document.createElement('tbody');
         for (let i = 0; i < listaClientes.length; i++) {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
+            const tr1 = document.createElement('tr');
+            tr1.innerHTML = `
                 <td>${listaClientes[i].nome}</td>
                 <td>${listaClientes[i].cpf}</td>
                 <td>${listaClientes[i].genero}</td>
                 <td>${listaClientes[i].dataNascimento}</td>
                 <td>${listaClientes[i].telefone}</td>
                 <td>${listaClientes[i].email}</td>
+                <td rowspan="1">${listaClientes[i].endereco}</td>
                 <td>
                     <button type='button' class='btn btn-danger' onclick='remover("${listaClientes[i].cpf}")'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -84,13 +98,15 @@ function exibirClientes() {
                     </button>
                 </td>
             `;
-            corpo.appendChild(tr);
+            corpo.appendChild(tr1);
         }
         tabela.appendChild(cabecalho);
         tabela.appendChild(corpo);
         divTabela.appendChild(tabela);
     }
     else {
+        divTabela.classList.remove('w-100');
+        divTabela.classList.add('w-50');
         const alertaMensagem = document.createElement('p');
         alertaMensagem.innerText = "Não Há Clientes Cadastrados!";
         divTabela.appendChild(alertaMensagem);

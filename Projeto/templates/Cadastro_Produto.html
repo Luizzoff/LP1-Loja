@@ -21,6 +21,9 @@
         body{
             background-color: #916A30;
         }
+        span{
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -36,26 +39,26 @@
                     <div>
                         <label for="codigo" class="form-label">Código:</label>
                         <input type="number" class="form-control" id="codigo" required>
-                        <div class="invalid-feedback">
+                        <span class="invalid-feedback">
                             Por favor, informe o código do produto!
-                        </div>
+                        </span>
                     </div>
                 </article>
                 <!-- ############### Validade ############### -->
                 <article class="col-md-2">
                     <label for="dataValidade" class="form-label">Válido até:</label>
                     <input type="date" class="form-control" id="dataValidade" required>
-                    <div class="invalid-feedback">
+                    <span class="invalid-feedback">
                         Por favor, informe a data de validade!
-                    </div>
+                    </span>
                 </article>
                 <!-- ############### Descrição ############### -->
                 <article class="col-md-8">
                     <label for="descricao" class="form-label">Descrição:</label>
                     <input type="text" class="form-control" id="descricao" required>
-                    <div class="invalid-feedback">
+                    <span class="invalid-feedback">
                         Por favor, informe a descrição do produto!
-                    </div>
+                    </span>
                 </article>
             </section>
             <!-- ======================================================================= -->
@@ -64,24 +67,24 @@
                 <article class="col-md-4">
                     <label for="precoCusto" class="form-label">Preço de Custo:</label>
                     <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">R$</span>
+                        <div class="input-group-text" id="inputGroupPrepend">R$</div>
                         <input type="number" class="form-control" id="precoCusto" aria-describedby="inputGroupPrepend"
                             required>
-                        <div class="invalid-feedback">
+                        <span class="invalid-feedback">
                             Por favor, informe o preço de custo.
-                        </div>
+                        </span>
                     </div>
                 </article>
                 <!-- ############### Preço Venda ############### -->
                 <article class="col-md-4">
                     <label for="precoVenda" class="form-label">Preço de Venda:</label>
                     <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">R$</span>
+                        <div class="input-group-text" id="inputGroupPrepend">R$</div>
                         <input type="number" class="form-control" id="precoVenda" aria-describedby="inputGroupPrepend"
                             required>
-                        <div class="invalid-feedback">
+                        <span class="invalid-feedback">
                             Por favor, informe o preço de venda.
-                        </div>
+                        </span>
                     </div>
                 </article>
                 <!-- ############### Estoque ############### -->
@@ -91,9 +94,9 @@
                         <span class="input-group-text" id="inputGroupPrepend">+</span>
                         <input type="number" class="form-control" id="qtdEstoque" aria-describedby="inputGroupPrepend"
                             required>
-                        <div class="invalid-feedback">
+                        <span class="invalid-feedback">
                             Por favor, informe a quantidade em estoque deste produto.
-                        </div>
+                        </span>
                     </div>
                 </article>
             </section>
@@ -103,16 +106,16 @@
                 <section class="col-md-12">
                     <label for="urlImagem" class="form-label">URL da Imagem:</label>
                     <input type="url" class="form-control" id="urlImagem" required>
-                    <div class="invalid-feedback">
+                    <span class="invalid-feedback">
                         Por favor, informe a url da imagem deste produto!
-                    </div>
+                    </span>
                 </section>
             </section>
             <!-- ======================================================================= -->
             <!-- ############### BUTTON ############### -->
             <nav class="mt-4">
                 <div class="col-15">
-                    <button class="btn btn-primary" type="submit">Confirmar</button>
+                    <button class="btn btn-success" type="submit">Confirmar</button>
                 </div>
             </nav>
         </form>

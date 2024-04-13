@@ -65,8 +65,13 @@ class Modelo_Produto{
         ProdutoDAO.remover(this);
     }
 
-    buscar() {
+    buscarAll() {
         const ProdutoDAO = new DAO_Produto();
-        return ProdutoDAO.buscar();
+        return ProdutoDAO.buscarAll();
+    }
+
+    buscarCodigo() {
+        const ProdutoMDL = new DAO_Produto();
+        return ProdutoMDL.buscarCodigo(this);
     }
 }

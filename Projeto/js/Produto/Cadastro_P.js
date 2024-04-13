@@ -13,16 +13,21 @@ formCadastroProduto.onsubmit = (evento) => {
     const dataValidade = document.getElementById('dataValidade').value;
 
     const ProdutoCTRL = new Controle_Produto();
-    if (ProdutoCTRL.validar(codigo, descricao, precoCusto, precoVenda, qtdEstoque, urlImagem, dataValidade)) {
-        //Remove a class 'was-validates', pois a entrada de dados ja foi validada
-        formCadastroProduto.classList.remove('was-validated');
-        //limpar os dados do formulário após a inclusão
-        formCadastroProduto.reset();
-        exibirProdutos();
+    if (ProdutoCTRL.buscarCodigo(codigo)) {
+        if(ProdutoCTRL.validarAll(codigo, descricao, precoCusto, precoVenda, qtdEstoque, urlImagem, dataValidade)) {
+            //Remove a class 'was-validates', pois a entrada de dados ja foi validada
+            formCadastroProduto.classList.remove('was-validated');
+            //limpar os dados do formulário após a inclusão
+            formCadastroProduto.reset();
+            exibirProdutos();
+        }
+        else {
+            formCadastroProduto.classList.add('was-validated');
+        }
     }
     else {
-        //Adiciona a class 'was-validates', pois a entrada de dados é invalida
         formCadastroProduto.classList.add('was-validated');
+        alert("Codigo de produto ja cadastrado!");
     }
     /*Isso impede a propagação (bubbling)do evento através do DOM (Modelo de Objeto de Documento).
         Em outras palavras, ele impede qu o evento alcance os elementos pais.*/
@@ -47,7 +52,7 @@ function remover(codigo) {
 
 function exibirProdutos() {
     const ProdutoCTRL = new Controle_Produto();
-    const listaProdutos = ProdutoCTRL.buscar();
+    const listaProdutos = ProdutoCTRL.buscarAll();
     
     const divTabela = document.getElementById('tabelaProdutos');
     divTabela.innerHTML = "";
