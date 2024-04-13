@@ -28,19 +28,4 @@ class DAO_Cliente {
     buscarAll() {
         return JSON.parse(this.#ArmazenamentoLocal.getItem('listaClientes'));
     }
-
-    buscarCPF(Cliente) {
-        if(Cliente instanceof Modelo_Cliente) {
-            const listaClientes = JSON.parse(this.#ArmazenamentoLocal.getItem('listaClientes'));
-            const listaAtualizada = listaClientes.filter( (itemLista) =>
-                                    { return itemLista.cpf == Cliente.cpf; });
-            
-            if (listaAtualizada.length != 0) {
-                return false;
-            }
-            else {
-                return true;
-            }
-        }        
-    }
 }

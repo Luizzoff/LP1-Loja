@@ -13,8 +13,8 @@ formCadastroProduto.onsubmit = (evento) => {
     const dataValidade = document.getElementById('dataValidade').value;
 
     const ProdutoCTRL = new Controle_Produto();
-    if (ProdutoCTRL.buscarCodigo(codigo)) {
-        if(ProdutoCTRL.validarAll(codigo, descricao, precoCusto, precoVenda, qtdEstoque, urlImagem, dataValidade)) {
+    if (!ProdutoCTRL.buscarCodigo(codigo)) {
+        if(ProdutoCTRL.validar(codigo, descricao, precoCusto, precoVenda, qtdEstoque, urlImagem, dataValidade)) {
             //Remove a class 'was-validates', pois a entrada de dados ja foi validada
             formCadastroProduto.classList.remove('was-validated');
             //limpar os dados do formulário após a inclusão

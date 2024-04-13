@@ -43,22 +43,4 @@ class DAO_Produto{
         //Retorna toda a lista de produtos
         return JSON.parse(this.#ArmazenamentoLocal.getItem("listaProdutos"));
     }
-
-    buscarCodigo(Produto) {
-        if (Produto instanceof Modelo_Produto) {
-            //recuperar a lista do armazenamento local
-            const listaProdutos = JSON.parse(this.#ArmazenamentoLocal.getItem('listaProdutos'));
-            const listaAtualizada = listaProdutos.filter( (itemLista) => 
-                                    { return itemLista.codigo == Produto.codigo } );
-            
-            if (listaAtualizada.length != 0) {
-                //Achei
-                return false;
-            } 
-            else {
-                //N achei
-                return true;
-            }
-        }
-    }
 }

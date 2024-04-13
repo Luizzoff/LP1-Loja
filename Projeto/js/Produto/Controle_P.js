@@ -1,5 +1,5 @@
 class Controle_Produto {
-    validarAll(codigo, descricao, precoCusto, precoVenda,qtdEstoque,urlImagem,dataValidade) 
+    validar(codigo, descricao, precoCusto, precoVenda,qtdEstoque,urlImagem,dataValidade) 
     {
         if (codigo !== 0 && codigo!=="" && descricao !== "" &&
            (!isNaN(precoCusto) && precoCusto > 0) &&
@@ -33,7 +33,18 @@ class Controle_Produto {
     } 
     
     buscarCodigo(codigo) {
-        const ProdutoMDL = new Modelo_Produto(codigo);
-        return ProdutoMDL.buscarCodigo();
+        const listaProdutos = this.buscarAll();
+
+        const listaAtualizada = listaProdutos.filter( (itemLista) => 
+                                { return itemLista.codigo == codigo } );
+            
+        if (listaAtualizada.length != 0) {
+            //Achei
+            return true;
+        } 
+        else {
+            //N achei
+            return false;
+        }
     }
 }

@@ -1,7 +1,6 @@
 //Se conecta com HTML e pede a requisição ao CONTROLE
 const formCliente = document.getElementById('formCliente');
-const validaInput = document.querySelectorAll('input');
-const validaSelect = document.getElementById('genero');
+
 window.onload = exibirClientes;
 
 formCliente.onsubmit = (evento) => {
@@ -14,29 +13,20 @@ formCliente.onsubmit = (evento) => {
     endereco = document.getElementById("endereco").value;
     //Chama Controle
     const clienteCTRL = new Controle_Cliente();
-    if(clienteCTRL.buscarCPF(cpf)) {
+    if(!clienteCTRL.buscarCPF(cpf)) {
         if(clienteCTRL.validar(nome, cpf, genero, dataNascimento, telefone, email, endereco))
         {
-            validaSelect.classList.remove('is-invalid');
-            validaInput.forEach(input => {
-                input.classList.remove('is-invalid');
-            });
+            formCliente.classList.remove('was-validated');
             formCliente.reset();
             exibirClientes();
         }
         else {
-            validaSelect.classList.add('is-invalid');
-            validaInput.forEach(input => {
-                input.classList.add('is-invalid');
-            });
+            formCliente.classList.add('was-validated');
         }
     }
     else {
+        formCliente.classList.add('was-validated');
         alert("CPF ja existente!");
-        validaSelect.classList.add('is-invalid');
-        validaInput.forEach(input => {
-            input.classList.add('is-invalid');
-        });
     }
     evento.stopPropagation();
     evento.preventDefault();

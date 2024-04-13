@@ -51,9 +51,4 @@ class Modelo_Cliente {
         const clienteDAO = new DAO_Cliente();
         return clienteDAO.buscarAll();
     }
-
-    buscarCPF() {
-        const clienteDAO = new DAO_Cliente();
-        return clienteDAO.buscarCPF(this);
-    }
 }

@@ -30,8 +30,16 @@ class Controle_Cliente {
     }
 
     buscarCPF(cpf) {
-        const clienteMDL = new Modelo_Cliente();
-        clienteMDL.cpf = cpf;
-        return clienteMDL.buscarCPF();
+        const listaClientes = this.buscarAll();
+
+        const listaAtualizada = listaClientes.filter( (itemLista) =>
+                                { return itemLista.cpf == cpf; });
+            
+        if (listaAtualizada.length != 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

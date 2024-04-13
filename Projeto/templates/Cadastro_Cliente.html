@@ -9,6 +9,10 @@
         crossorigin="anonymous">
     <title>Cadastro de Cliente</title>
     <style>
+        form{
+            font-size: 1.01em;
+            font-weight: 500; 
+        }
         header{
             color: #ffffff;
             font-weight: 400;
@@ -38,7 +42,7 @@
                 <!-- ############### Nome Completo ############### -->
                 <article class="col-6">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="nome" placeholder="">
+                        <input type="text" class="form-control" id="nome" required placeholder="">
                         <label for="nome">Nome completo*</label>
                         <span class="invalid-feedback">
                             Por favor, informe seu nome completo!.
@@ -48,7 +52,7 @@
                 <!-- ############### CPF ############### -->
                 <article class="col-6">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="cpf" placeholder="___.___.___-__">
+                        <input type="text" class="form-control" id="cpf" required placeholder="___.___.___-__">
                         <label for="cpf">CPF*</label>
                         <span class="invalid-feedback">
                             Por favor, informe seu cpf: ___.___.___-__
@@ -63,8 +67,8 @@
                 <!-- ############### Genero ############### -->
                 <article class="col-6">
                     <div class="form-floating">
-                        <select class="form-select" id="genero">
-                          <option selected value=""></option>
+                        <select class="form-select" id="genero" required>
+                          <option selected value="">Nenhum</option>
                           <option value="Não especificado">Não Especificado</option>
                           <option value="Homem">Homem</option>
                           <option value="Mulher">Mulher</option>
@@ -79,7 +83,7 @@
                 <!-- ############### Data de Nascimento ############### -->
                 <article class="col-6">
                     <div class="form-floating">
-                        <input type="date" class="form-control" id="dataNascimento" placeholder="">
+                        <input type="date" class="form-control" id="dataNascimento" required placeholder="">
                         <label for="dataNascimento">Data de nascimento*</label>
                         <span class="invalid-feedback">
                             Por favor, informe sua data de nascimento!.
@@ -94,7 +98,7 @@
                 <!-- ############### Telefone celular ############### -->
                 <article class="col-6">
                     <div class="form-floating">
-                        <input type="tel" class="form-control" id="telefone" placeholder="( )_____-____">
+                        <input type="tel" class="form-control" id="telefone" required placeholder="( )_____-____">
                         <label for="telefone">Telefone celular*</label>
                         <span class="invalid-feedback">
                             Por favor, informe seu numero de telefone!.
@@ -104,7 +108,7 @@
                 <!-- ############### E-mail ############### -->
                 <article class="col-6">
                     <div class="form-floating">
-                        <input type="email" class="form-control" id="email" placeholder="nome@exemplo.com">
+                        <input type="email" class="form-control" id="email" required placeholder="nome@exemplo.com">
                         <label for="email">E-mail*</label>
                         <span class="invalid-feedback">
                             Por favor, informe seu email: nome@exemplo.com.
@@ -120,7 +124,7 @@
                 <!-- ############### Endereço ############### -->
                 <article class="col-12">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="endereco" placeholder="Rua/Avenida... Nº... Cidade... CEP... UF...">
+                        <input type="text" class="form-control" id="endereco" required placeholder="Rua/Avenida... Nº... Cidade... CEP... UF...">
                         <label for="endereco">Endereço*</label>
                         <span class="invalid-feedback">
                             Por favor, informe seu endereço!, EX: Rua Te Achei Nº420 Barretos 14783-252 SP
