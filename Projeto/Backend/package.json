@@ -1,0 +1,24 @@
+{
+  "name": "servidor",
+  "version": "1.0.2",
+  "description": "Bit Stich",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "keywords": [
+    "http",
+    "fipp",
+    "lp1"
+  ],
+  "author": "Luiz, Manu, Eduardo",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mysql2": "^3.9.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
