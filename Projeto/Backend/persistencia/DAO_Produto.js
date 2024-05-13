@@ -79,18 +79,18 @@ export default class DAO_Produto{
     async buscarAll(){
         const conexao = await conectar();
         const sql = `SELECT * FROM Produtos`;
-        const dataBase = await conexao.execute(sql);
+        const [dataBase, campos] = await conexao.execute(sql);
 
         let listaProdutos = [];
         for (const linha of dataBase){
             const produto = new Produto(
-                linha['codigo'],
-                linha['descricao'],
-                linha['precoCusto'],
-                linha['precoVenda'],
-                linha['qtdEstoque'],
-                linha['urlImagem'],
-                linha['dataValidade']
+                linha.codigo,
+                linha.descricao,
+                linha.precoCusto,
+                linha.precoVenda,
+                linha.qtdEstoque,
+                linha.urlImagem,
+                linha.dataValidade
             );
 
             listaProdutos.push(produto);
@@ -107,13 +107,13 @@ export default class DAO_Produto{
         let listaProdutos = [];
         for(const linha of dataBase){
             const produto = new Produto(
-                linha['codigo'],
-                linha['descricao'],
-                linha['precoCusto'],
-                linha['precoVenda'],
-                linha['qtdEstoque'],
-                linha['urlImagem'],
-                linha['dataValidade']
+                linha.codigo,
+                linha.descricao,
+                linha.precoCusto,
+                linha.precoVenda,
+                linha.qtdEstoque,
+                linha.urlImagem,
+                linha.dataValidade
             );
             listaProdutos.push(produto);
         }
