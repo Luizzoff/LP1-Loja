@@ -83,13 +83,13 @@ export default class DAO_Cliente {
         let listaClientes = [];
         for (const linha of dataBase){
             const cliente = new Cliente(
-                cliente.nome,
-                cliente.cpf,
-                cliente.genero,
-                cliente.dataNascimento,
-                cliente.telefone,
-                cliente.email,
-                cliente.endereco,
+                linha.nome,
+                linha.cpf,
+                linha.genero,
+                linha.dataNascimento,
+                linha.telefone,
+                linha.email,
+                linha.endereco,
             );
 
             listaClientes.push(cliente);
@@ -106,13 +106,13 @@ export default class DAO_Cliente {
         let listaClientes = [];
         for (const linha of dataBase){
             const cliente = new Cliente(
-                cliente.nome,
-                cliente.cpf,
-                cliente.genero,
-                cliente.dataNascimento,
-                cliente.telefone,
-                cliente.email,
-                cliente.endereco,
+                linha.nome,
+                linha.cpf,
+                linha.genero,
+                linha.dataNascimento,
+                linha.telefone,
+                linha.email,
+                linha.endereco,
             );
 
             listaClientes.push(cliente);
