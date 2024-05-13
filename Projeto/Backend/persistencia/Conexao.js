@@ -8,7 +8,7 @@ export default async function conectar() {
         global.poolConexoes = await mysql.createPool({
             host: "localhost",
             port: 3306,
-            database: "BitStich",
+            database: "bit_stich",
             user: "root",
             password: "",
             connectTimeout: 60000,
