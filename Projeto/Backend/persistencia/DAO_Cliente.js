@@ -78,18 +78,18 @@ export default class DAO_Cliente {
     async buscarAll(){
         const conexao = await conectar();
         const sql = `SELECT * FROM Clientes`;
-        const dataBase = await conexao.execute(sql);
+        const [dataBase, campos] = await conexao.execute(sql);
 
         let listaClientes = [];
         for (const linha of dataBase){
             const cliente = new Cliente(
-                linha['nome'],
-                linha['cpf'],
-                linha['genero'],
-                linha['dataNascimento'],
-                linha['telefone'],
-                linha['email'],
-                linha['endereco']
+                cliente.nome,
+                cliente.cpf,
+                cliente.genero,
+                cliente.dataNascimento,
+                cliente.telefone,
+                cliente.email,
+                cliente.endereco,
             );
 
             listaClientes.push(cliente);
@@ -106,13 +106,13 @@ export default class DAO_Cliente {
         let listaClientes = [];
         for (const linha of dataBase){
             const cliente = new Cliente(
-                linha['nome'],
-                linha['cpf'],
-                linha['genero'],
-                linha['dataNascimento'],
-                linha['telefone'],
-                linha['email'],
-                linha['endereco']
+                cliente.nome,
+                cliente.cpf,
+                cliente.genero,
+                cliente.dataNascimento,
+                cliente.telefone,
+                cliente.email,
+                cliente.endereco,
             );
 
             listaClientes.push(cliente);
