@@ -72,16 +72,16 @@ export default class DAO_Usuario{
     async buscarAll(){
         const conexao = await conectar();
         const sql = `SELECT * FROM Usuarios`;
-        const dataBase = await conexao.execute(sql);
+        const [dataBase, campos] = await conexao.execute(sql);
 
         let listaUsuarios = [];
         for (const linha of dataBase){
             const usuario = new Usuario(
-                linha['nome'],
-                linha['email'],
-                linha['senha'],
-                linha['senha_confirmacao'],
-                linha['perfil']
+                linha.nome,
+                linha.email,
+                linha.senha,
+                linha.senha_confirmacao,
+                linha.perfil
             );
 
             listaUsuarios.push(usuario);
@@ -98,11 +98,11 @@ export default class DAO_Usuario{
         let listaUsuarios = [];
         for (const linha of dataBase){
             const usuario = new Usuario(
-                linha['nome'],
-                linha['email'],
-                linha['senha'],
-                linha['senha_confirmacao'],
-                linha['perfil']
+                linha.nome,
+                linha.email,
+                linha.senha,
+                linha.senha_confirmacao,
+                linha.perfil
             );
 
             listaUsuarios.push(usuario);
