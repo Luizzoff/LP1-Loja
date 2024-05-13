@@ -72,16 +72,16 @@ export default class DAO_Fornecedor {
     async buscarAll(){
         const conexao = await conectar();
         const sql = `SELECT * FROM Fornecedores`;
-        const dataBase = await conexao.execute(sql);
+        const [dataBase, campos] = await conexao.execute(sql);
 
         let listaFornecedores = [];
         for (const linha of dataBase){
             const fornecedor = new Fornecedor(
-                linha['nome'],
-                linha['cnpj'],
-                linha['telefone'],
-                linha['email'],
-                linha['endereco']
+                linha.nome,
+                linha.cnpj,
+                linha.telefone,
+                linha.email,
+                linha.endereco
             );
 
             listaFornecedores.push(fornecedor);
@@ -98,11 +98,11 @@ export default class DAO_Fornecedor {
         let listaFornecedores = [];
         for (const linha of dataBase){
             const fornecedor = new Fornecedor(
-                linha['nome'],
-                linha['cnpj'],
-                linha['telefone'],
-                linha['email'],
-                linha['endereco']
+                linha.nome,
+                linha.cnpj,
+                linha.telefone,
+                linha.email,
+                linha.endereco
             );
 
             listaFornecedores.push(fornecedor);
