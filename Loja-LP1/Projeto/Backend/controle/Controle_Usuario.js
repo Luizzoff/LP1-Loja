@@ -13,13 +13,7 @@ export default class Controle_Usuario{
             const senha_confirmacao = req.body.senha_confirmacao;
             const perfil  = req.body.perfil;
 
-            if (!this.verificarEmail(email) &&
-            !this.validarUsuario(nome) &&
-            this.validarEmail(email) &&
-            !this.vazioSenha(senha) &&
-            !this.vazioSenhaConfirmacao(senha_confirmacao) &&
-            !this.validarSenha(senha,senha_confirmacao) &&
-            !this.validarPerfil(perfil) )
+            if (req.method == 'POST')
             {
                 const usuario = new Usuario(nome, email, senha, senha_confirmacao, perfil);                                   
                 
@@ -28,7 +22,7 @@ export default class Controle_Usuario{
                     res.status(200).json({
                         "status":true,
                         "mensagem":"Usuario adicionado com sucesso!",
-                        "codigo": usuario.codigo
+                        "email": usuario.email
                     });
                 })
                 .catch((erro)=>{
@@ -59,9 +53,10 @@ export default class Controle_Usuario{
         if (req.method == 'DELETE')
         {
             const email = req.params.email;
-            if (this.verificarEmail(email) && this.validarEmail(email))
+            if (email)
             {
-                const usuario = new Usuario(email);
+                const usuario = new Usuario();
+                usuario.email = email;
                 usuario.excluir()
                 .then(()=>{
                     res.status(200).json({
@@ -102,13 +97,7 @@ export default class Controle_Usuario{
             const senha_confirmacao = req.body.senha_confirmacao;
             const perfil  = req.body.perfil;
 
-            if (!this.verificarEmail(email) &&
-            !this.validarUsuario(nome) &&
-            this.validarEmail(email) &&
-            !this.vazioSenha(senha) &&
-            !this.vazioSenhaConfirmacao(senha_confirmacao) &&
-            !this.validarSenha(senha,senha_confirmacao) &&
-            !this.validarPerfil(perfil) )
+            if (nome && email && senha && senha_confirmacao && perfil)
             {
                 const usuario = new Usuario(nome, email, senha, senha_confirmacao, perfil);
                 usuario.atualizar()
@@ -171,7 +160,7 @@ export default class Controle_Usuario{
         if (req.method=="GET")
         {
             const email = req.params.email;
-            if (this.verificarEmail(email) && this.validarEmail(email))
+            if (email)
             {
                 const usuario = new Usuario();
                 usuario.consultar(codigo)
@@ -198,64 +187,5 @@ export default class Controle_Usuario{
                 "mensagem":"Requisição inválida!, Metodo não é GET"
             });
         }    
-    }
-
-
-    validarUsuario(nome){
-        if (nome === "") {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    validarEmail(email){
-        const regex = /^[a-zA-Z0-9._-]+@(gmail\.com|hotmail\.com|outlook\.com)$/;
-        return regex.test(email);
-    }
-    validarSenha(senha,senha_confirmacao){
-        if (senha !== senha_confirmacao) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    vazioSenha(senha){
-        if(senha === ""){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    vazioSenhaConfirmacao(senha_confirmacao){
-        if(senha_confirmacao === ""){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }   
-    validarPerfil(perfil){
-        if (perfil === "") {
-            return true;
-        } else {
-            return false;
-        }
-        
-    }
-    
-    
-    //########### *** ##########//
-    verificarEmail(email){
-        const listaUsuarios = this.consultar(email);    
-
-        if (listaUsuarios.length != 0) {
-            //Achei
-            return true;
-        } 
-        else {
-            //N achei
-            return false;
-        }
     }
 }

@@ -57,12 +57,11 @@ export default class DAO_Cliente {
     async alterar(cliente){
         if(cliente instanceof Cliente){
             const conexao = await conectar();
-            const sql = `UPDATE Clientes SET nome=?, cpf=?, genero=?, dataNascimento=str_to_date(?,'%d/%m/%Y'), telefone=?, email=?, endereco=?
+            const sql = `UPDATE Clientes SET nome=?, genero=?, dataNascimento=str_to_date(?,'%d/%m/%Y'), telefone=?, email=?, endereco=?
                 WHERE cpf = ?
             `;
             let parametros = [
                 cliente.nome,
-                cliente.cpf,
                 cliente.genero,
                 cliente.dataNascimento,
                 cliente.telefone,

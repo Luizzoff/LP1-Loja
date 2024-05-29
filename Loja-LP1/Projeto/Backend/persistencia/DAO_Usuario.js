@@ -10,7 +10,7 @@ export default class DAO_Usuario{
         const conexao = await conectar();
         const sql = `
             CREATE TABLE IF NOT EXISTS Usuarios (
-                usuario VARCHAR(100) NOT NULL,
+                nome VARCHAR(100) NOT NULL,
                 email VARCHAR(50) NOT NULL,
                 senha VARCHAR(50) NOT NULL,
                 senha_confirmacao VARCHAR(50) NOT NULL,
@@ -53,12 +53,11 @@ export default class DAO_Usuario{
     async alterar(usuario){
         if(usuario instanceof Usuario){
             const conexao = await conectar();
-            const sql = `UPDATE Usuarios SET nome=?, email=?, senha=?, senha_confirmacao=?, perfil=?
+            const sql = `UPDATE Usuarios SET nome=?, senha=?, senha_confirmacao=?, perfil=?
                 WHERE email = ?
             `;
             let parametros = [
                 usuario.nome,
-                usuario.email,
                 usuario.senha,
                 usuario.senha_confirmacao,
                 usuario.perfil,

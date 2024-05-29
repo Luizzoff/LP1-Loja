@@ -34,17 +34,17 @@ export default class Usuario {
         }
     }
 
-    async adicionar() {
+    async gravar() {
         const usuarioDAO = new DAO_Usuario();
         await usuarioDAO.adicionar(this);
     }
 
-    async remover() {
+    async excluir() {
         const usuarioDAO = new DAO_Usuario();
         await usuarioDAO.remover(this);
     }
 
-    async alterar(){
+    async atualizar(){
         const usuarioDAO = new DAO_Usuario();
         await usuarioDAO.alterar(this);
     }

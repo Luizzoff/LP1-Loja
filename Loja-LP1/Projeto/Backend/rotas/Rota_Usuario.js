@@ -6,9 +6,12 @@ const rota = Router();
 
 rota.get("/",usuarioCtrl.buscarAll)
 .get("/:email", usuarioCtrl.consultar)
-.post("/", usuarioCtrl.adicionar)
-.put("/:email", usuarioCtrl.alterar)
-.patch("/:email", usuarioCtrl.alterar)
-.delete("/:email", usuarioCtrl.remover);
+
+.post("/", usuarioCtrl.gravar)
+
+.put("/:email", usuarioCtrl.atualizar)
+.patch("/:email", usuarioCtrl.atualizar)
+
+.delete("/:email", usuarioCtrl.excluir)
 
 export default rota;

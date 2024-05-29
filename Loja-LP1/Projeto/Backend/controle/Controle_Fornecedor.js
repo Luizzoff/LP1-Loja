@@ -12,12 +12,7 @@ export default class Controle_Fornecedor {
             const email = req.body.email;
             const endereco  = req.body.endereco;
 
-            if (!this.verificarCnpj(cnpj) &&
-            this.alertaNome(nome) &&
-            this.alertaCnpj(cnpj) &&
-            this.alertaTelefone(telefone) &&
-            this.alertaEmail(email) &&
-            this.alertaEndereco(endereco)) 
+            if (nome && cnpj && telefone && email && endereco) 
         {
                 const fornecedor = new Fornecedor(nome, cnpj, telefone, email, endereco);                                   
                 
@@ -26,7 +21,7 @@ export default class Controle_Fornecedor {
                     res.status(200).json({
                         "status":true,
                         "mensagem":"Fornecedor adicionado com sucesso!",
-                        "codigo": fornecedor.codigo
+                        "cnpj": fornecedor.cnpj
                     });
                 })
                 .catch((erro)=>{
@@ -56,21 +51,22 @@ export default class Controle_Fornecedor {
         res.type("application/json");
         if (req.method == 'DELETE')
         {
-            const cpnj = req.params.cpnj;
-            if (this.alertaCnpj(cnpj) && this.verificarCnpj(cnpj))
+            const cnpj = req.params.cnpj;
+            if (cnpj)
             {
-                const cliente = new Produto(cpnj);
-                cliente.excluir()
+                const fornecedor = new Fornecedor();
+                fornecedor.cnpj = cnpj;
+                fornecedor.excluir()
                 .then(()=>{
                     res.status(200).json({
                         "status":true,
-                        "mensagem":"Cliente excluído com sucesso!",
+                        "mensagem":"fornecedor excluído com sucesso!",
                     });
                 })
                 .catch((erro)=>{
                     res.status(500).json({
                         "status":false,
-                        "mensagem":"Erro ao excluir cliente: " + erro.message
+                        "mensagem":"Erro ao excluir fornecedor: " + erro.message
                     });
                 });
             }
@@ -99,25 +95,20 @@ export default class Controle_Fornecedor {
             const email = req.body.email;
             const endereco  = req.body.endereco;
 
-            if (!this.verificarCnpj(cnpj) &&
-            this.alertaNome(nome) &&
-            this.alertaCnpj(cnpj) &&
-            this.alertaTelefone(telefone) &&
-            this.alertaEmail(email) &&
-            this.alertaEndereco(endereco)) 
+            if (nome && cnpj && telefone && email && endereco) 
             {
-                const cliente = new Cliente(nome, cnpj, telefone, email, endereco);
-                cliente.atualizar()
+                const fornecedor = new Fornecedor(nome, cnpj, telefone, email, endereco);
+                fornecedor.atualizar()
                 .then(()=>{
                     res.status(200).json({
                         "status":true,
-                        "mensagem":"Cliente alterado com sucesso!",
+                        "mensagem":"Fornecedor alterado com sucesso!",
                     });
                 })
                 .catch((erro)=>{
                     res.status(500).json({
                         "status":false,
-                        "mensagem":"Erro ao atualizar o cliente: " + erro.message
+                        "mensagem":"Erro ao atualizar o fornecedor: " + erro.message
                     });
                 });
             }
@@ -141,15 +132,15 @@ export default class Controle_Fornecedor {
         res.type("application/json");
         if (req.method=="GET")
         {
-            const clientes = new Clientes();
-            clientes.buscarAll()
-            .then((listaClientes) =>{
-                res.status(200).json(listaClientes);
+            const fornecedores = new Fornecedor();
+            fornecedores.buscarAll()
+            .then((listaFornecedores) =>{
+                res.status(200).json(listaFornecedores);
             })
             .catch((erro) => {
                 res.status(500).json({
                     "status":false,
-                    "mensagem":"Erro ao buscarAll clientes: " + erro.message    
+                    "mensagem":"Erro ao buscarAll fornecedores: " + erro.message    
                 });
             });
         }
@@ -166,18 +157,18 @@ export default class Controle_Fornecedor {
         res.type("application/json");
         if (req.method=="GET")
         {
-            const cpnj = req.params.cpnj;
-            if (this.alertaCnpj(cnpj) && this.verificarCnpj(cnpj))
+            const cnpj = req.params.cnpj;
+            if (cnpj)
             {
-                const clientes = new Clientes();
-                clientes.consultar(cnpj)
-                .then((listaClientes) =>{
-                    res.status(200).json(listaClientes);
+                const fornecedores = new Fornecedor();
+                fornecedores.consultar(cnpj)
+                .then((listaFornecedor) =>{
+                    res.status(200).json(listaFornecedor);
                 })
                 .catch((erro) => {
                     res.status(500).json({
                         "status":false,
-                        "mensagem":"Erro ao consultar clientes: " + erro.message    
+                        "mensagem":"Erro ao consultar fornecedores: " + erro.message    
                     });
                 });
             }
@@ -194,44 +185,5 @@ export default class Controle_Fornecedor {
                 "mensagem":"Requisição inválida!, Metodo não é GET"
             });
         }    
-    }
-
-    alertaNome(nome) {
-        if (nome === "" || !isNaN(nome)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-    alertaCnpj(cnpj) {
-        const regex_cnpj = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
-        return regex_cnpj.test(cnpj);
-    }
-    alertaTelefone(telefone) {
-        const regex_tel = /^\(\d{2}\)\s*\d{4}-\d{4}$/;
-        return regex_tel.test(telefone);
-    }
-    alertaEmail(email) {
-        const regex_email = /^[a-zA-Z0-9._-]+@(gmail\.com|hotmail\.com|outlook\.com)$/;
-        return regex_email.test(email);
-    }
-    alertaEndereco(endereco) {
-        const regex_endereco = /^(rua|avenida)\s.+/i;
-        return regex_endereco.test(endereco);
-    }
-
-    
-    //########## *** ##########//
-    verificarCnpj(cnpj){
-        const listaFornecedores = this.consultar(cnpj);    
-
-        if (listaFornecedores.length != 0) {
-            //Achei
-            return true;
-        } 
-        else {
-            //N achei
-            return false;
-        }
     }
 }

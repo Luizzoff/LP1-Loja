@@ -41,17 +41,17 @@ export default class Cliente {
             "endereco": this.#endereco
         }
     }
-    async adicionar() {
+    async gravar() {
         const clienteDAO = new DAO_Cliente();
         await clienteDAO.adicionar(this);
     }
 
-    async remover() {
+    async excluir() {
         const clienteDAO = new DAO_Cliente();
         await clienteDAO.remover(this);
     }
 
-    async alterar(){
+    async atualizar(){
         const clienteDAO = new DAO_Cliente();
         await clienteDAO.alterar(this);
     }

@@ -53,12 +53,11 @@ export default class DAO_Fornecedor {
     async alterar(fornecedor){
         if(fornecedor instanceof Fornecedor){
             const conexao = await conectar();
-            const sql = `UPDATE Fornecedores SET nome=?, cnpj=?, telefone=?, email=?, endereco=?
+            const sql = `UPDATE Fornecedores SET nome=?, telefone=?, email=?, endereco=?
                 WHERE cnpj = ?
             `;
             let parametros = [
                 fornecedor.nome,
-                fornecedor.cnpj,
                 fornecedor.telefone,
                 fornecedor.email,
                 fornecedor.endereco,

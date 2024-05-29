@@ -1,4 +1,7 @@
+import rotaClientes from './rotas/Rota_Cliente.js';
+import rotaFornecedores from './rotas/Rota_Fornecedor.js';
 import rotaProduto from './rotas/Rota_Produto.js';
+import rotaUsuarios from './rotas/Rota_Usuario.js';
 import express from 'express';
 import cors from 'cors';
 
@@ -14,7 +17,10 @@ app.use(cors({
 }));
 
 //########## ROTAS ##########//
+app.use('/clientes', rotaClientes);
+app.use('/fornecedores', rotaFornecedores);
 app.use('/produtos', rotaProduto);
+app.use('/usuarios', rotaUsuarios);
 
 //########## PASTAS DISPONIBILIZADAS ##########//
 app.use(express.static("../Frontend"));

@@ -6,9 +6,12 @@ const rota = Router();
 
 rota.get("/",fornecedorCtrl.buscarAll)
 .get("/:cnpj", fornecedorCtrl.consultar)
-.post("/", fornecedorCtrl.adicionar)
-.put("/:cnpj", fornecedorCtrl.alterar)
-.patch("/:cnpj", fornecedorCtrl.alterar)
-.delete("/:cnpj", fornecedorCtrl.remover);
+
+.post("/", fornecedorCtrl.gravar)
+
+.put("/:cnpj", fornecedorCtrl.atualizar)
+.patch("/:cnpj", fornecedorCtrl.atualizar)
+
+.delete("/:cnpj", fornecedorCtrl.excluir);
 
 export default rota;
