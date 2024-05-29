@@ -13,16 +13,16 @@ formCliente.onsubmit = (evento) => {
     const nome = nomeInput.value;
     const cpf = cpfInput.value;
     const genero = generoInput.value;
-    const dataNascimento = dataNascimentoInput.value;
+    const dataNascimento = new Date(dataNascimentoInput.value).toLocaleDateString();
     const telefone = telefoneInput.value;
     const email = emailInput.value;
     const endereco = enderecoInput.value;
     
-    if(!this.verificarCpf(cpf) && this.alertaNome(nome) &&
-    this.alertaCpf(cpf) && this.alertaGenero(genero) &&
-    this.alertaDataNascimento(dataNascimento) && this.alertaTelefone(telefone) &&
-    this.alertaEmail(email) && this.alertaEndereco(endereco)){
-        fetch('http://localhoist:3000/clientes',{
+    if(alertaNome(nome) &&
+    alertaCpf(cpf) && alertaGenero(genero) &&
+    alertaDataNascimento(dataNascimento) && alertaTelefone(telefone) &&
+    alertaEmail(email) && alertaEndereco(endereco)){
+        fetch('http://localhost:3000/clientes',{
             methos: "POST",
             headers: {
                 "Content-Type":"application/json"
@@ -41,7 +41,7 @@ formCliente.onsubmit = (evento) => {
         .then((resJSON) => {
             if(resJSON.status){
                 alert(resJSON.mensagem + '. CPF válido: ' + resJSON.cpf);
-                formCliente.reset();
+                //formCliente.reset();
                 exibirClientes();
             }
             else {
@@ -71,15 +71,9 @@ formCliente.onsubmit = (evento) => {
             cpfInput.classList.remove('is-valid');
             cpfInput.classList.add('is-invalid');
         } else {
-            if(clienteCtrl.verificarCpf(cpf)) {
-                alert("CPF ja cadastrado!");
-                cpfInput.classList.remove('is-valid');
-                cpfInput.classList.add('is-invalid');
-            } else {
-                cpfInput.classList.remove('is-invalid');
-                cpfInput.classList.add('is-valid');
-            }
-        }
+            cpfInput.classList.remove('is-invalid');
+            cpfInput.classList.add('is-valid');
+         }
 
         //=======================================================
         //genero

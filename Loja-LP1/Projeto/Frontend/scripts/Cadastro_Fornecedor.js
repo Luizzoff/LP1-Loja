@@ -15,12 +15,11 @@ formFornecedor.onsubmit = (evento) => {
     const endereco = enderecoInput.value;
 
     
-    if (!this.verificarCnpj(cnpj) &&
-            this.alertaNome(nome) &&
-            this.alertaCnpj(cnpj) &&
-            this.alertaTelefone(telefone) &&
-            this.alertaEmail(email) &&
-            this.alertaEndereco(endereco)) 
+    if (alertaNome(nome) &&
+            alertaCnpj(cnpj) &&
+            alertaTelefone(telefone) &&
+            alertaEmail(email) &&
+            alertaEndereco(endereco)) 
     {
         fetch('http://localhost:3000/fornecedores', {
             method: "POST",

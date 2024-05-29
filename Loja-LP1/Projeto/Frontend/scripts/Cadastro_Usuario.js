@@ -15,13 +15,12 @@ formUsuario.onsubmit = (evento) => {
     const perfil = perfilInput.value;
 
 
-    if (!this.verificarEmail(email) &&
-    !this.validarUsuario(usuario) &&
-    this.validarEmail(email) &&
-    !this.vazioSenha(senha) &&
-    !this.vazioSenhaConfirmacao(senha_confirmacao) &&
-    !this.validarSenha(senha,senha_confirmacao) &&
-    !this.validarPerfil(perfil) )
+    if (!validarUsuario(usuario) &&
+    validarEmail(email) &&
+    !vazioSenha(senha) &&
+    !vazioSenhaConfirmacao(senha_confirmacao) &&
+    !validarSenha(senha,senha_confirmacao) &&
+    !validarPerfil(perfil) )
     {
         fetch('http://localhost:3000/usuarios', {
             method: "POST",
@@ -29,11 +28,11 @@ formUsuario.onsubmit = (evento) => {
                 "Content-Type":"application/json"
             },
             body: JSON.stringify({
-                "usuario":usuario,
-                "email":email,
-                "senha":senha,
-                "senha_confirmacao":senha_confirmacao,
-                "perfil": perfil
+                "nome":"usuario",
+                "email":"email",
+                "senha":"senha",
+                "senha_confirmacao":"senha_confirmacao",
+                "perfil": "perfil"
             })
         })
         .then((res) => { return res.json(); })
@@ -48,7 +47,7 @@ formUsuario.onsubmit = (evento) => {
             }
         })
         .catch((erro) =>{
-            alert('Erro ao incluir o produto: ' + erro.message);
+            alert('Erro ao incluir o usuario: ' + erro.message);
         })
         limparClassesValidacao();
     }
@@ -66,11 +65,6 @@ formUsuario.onsubmit = (evento) => {
         if (!validarEmail(email)) {
             emailInput.classList.remove('is-valid');
             emailInput.classList.add('is-invalid');
-        }
-        else if(verificarEmail(email)){
-            emailInput.classList.remove('is-valid');
-            emailInput.classList.add('is-invalid');
-            alert("Email já cadastrado")
         }
         else{
             emailInput.classList.remove('is-invalid');
@@ -166,7 +160,7 @@ function excluir(email) {
 function exibirUsuarios(){
     const divTabela = document.getElementById('tabela');
     divTabela.innerHTML = "";
-    fetch('http://localhost:3000/produtos', {
+    fetch('http://localhost:3000/usuarios', {
         method:"GET"
     })
     .then((res) => { return res.json(); })
