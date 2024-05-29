@@ -44,19 +44,19 @@ export default class Produto {
         }
     }
 
-    async adicionar() {
+    async gravar() {
         const produtoDAO = new DAO_Produto();
-        await produtoDAO.adicionar(this); 
+        await produtoDAO.gravar(this); 
     }
 
-    async remover() {
+    async excluir() {
         const produtoDAO = new DAO_Produto();
-        await produtoDAO.remover(this);
+        await produtoDAO.excluir(this);
     }
 
-    async alterar() {
+    async atualizar() {
         const produtoDAO = new DAO_Produto();
-        await produtoDAO.alterar(this);
+        await produtoDAO.atualizar(this);
     }
 
     async buscarAll() {

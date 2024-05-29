@@ -1,6 +1,6 @@
 {
   "name": "servidor",
-  "version": "1.0.2",
+  "version": "1.2.2",
   "description": "Bit Stich",
   "main": "app.js",
   "type": "module",
@@ -15,10 +15,11 @@
   "author": "Luiz, Manu, Eduardo",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.19.2",
-    "mysql2": "^3.9.7"
+    "mysql2": "^3.9.8"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.1"
   }
 }

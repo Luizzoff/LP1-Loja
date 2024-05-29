@@ -1,16 +1,18 @@
-import mysql from 'mysql2/promise'
+import mysql from 'mysql2/promise';
 
-export default async function conectar() {
-    if (global.poolConexoes) {
-        return await poolConexoes.getConnection();
-    } 
-    else {
-        global.poolConexoes = await mysql.createPool({
-            host: "localhost",
+export default async function conectar(){
+    
+    if (global.poolConexoes){
+        return await global.poolConexoes.getConnection();
+    }
+    else{
+        global.poolConexoes = mysql.createPool({
+            host: 'localhost',
             port: 3306,
             database: "bit_stich",
             user: "root",
             password: "",
+            connectionLimit: 10,
             connectTimeout: 60000,
             waitForConnections: true,
             queueLimit: 20
