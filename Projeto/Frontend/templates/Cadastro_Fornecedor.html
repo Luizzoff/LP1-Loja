@@ -84,7 +84,7 @@ form{
 
     <div class="corFundo pb-4 pt-4">
         <main class="container w-50">
-            <form class="row g-3 mt-3 needs-validation" novalidate id="formFornecedores">
+            <form class="row g-3 mt-3 needs-validation" novalidate id="formFornecedor">
                 <!-- ======================================================================= -->
                 <!-- ##### 1º Linha ##### -->
                 <section class="row mt-4">
@@ -101,10 +101,10 @@ form{
                     <!-- ############### CNPJ ############### -->
                     <article class="col-6">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="cnpj" required placeholder="__.___.___/____-__">
+                            <input type="text" class="form-control" id="cnpj" required placeholder="__.___.___.____-__">
                             <label for="cnpj">CNPJ*</label>
                             <span class="invalid-feedback">
-                                Por favor, informe seu cnpj!, __.___.___/____-__.
+                                Por favor, informe seu cnpj!, __.___.___.____-__.
                             </span>
                         </div>
                     </article>
@@ -153,7 +153,7 @@ form{
                 <!-- ############### BUTTON ############### -->
                 <nav class="mt-4">
                     <div class="col-15">
-                        <button class="btn btn-success" type="submit">Confirmar</button>
+                        <button class="btn btn-success" type="submit" id="botao">Confirmar</button>
                     </div>
                 </nav>
             </form>
@@ -165,4 +165,5 @@ form{
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous">
 </script>
+<script src="../scripts/Cadastro_Fornecedor.js"></script>
 </html>
