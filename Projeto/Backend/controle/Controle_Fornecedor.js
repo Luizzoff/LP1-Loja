@@ -1,79 +1,195 @@
 import Fornecedor from "../modelo/Fornecedor.js";
 
 export default class Controle_Fornecedor {
-    validar(nome, cnpj, telefone, email, endereco)
+    gravar(req, res) 
     {
-        if (!this.verificarCnpj(cnpj) &&
-            this.alertaNome(nome) &&
-            this.alertaCnpj(cnpj) &&
-            this.alertaTelefone(telefone) &&
-            this.alertaEmail(email) &&
-            this.alertaEndereco(endereco)) 
+        res.type("application/json");
+        if (req.method == 'POST' && req.is("application/json"))
         {
-            const fornecedor = new Fornecedor(nome, cnpj,
-                                              telefone, email, endereco);
-            fornecedor.adicionar();
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+            const nome = req.body.nome;
+            const cnpj = req.body.cnpj;
+            const telefone = req.body.telefone;
+            const email = req.body.email;
+            const endereco = req.body.endereco;
 
-    alertaNome(nome) {
-        if (nome === "" || !isNaN(nome)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-    alertaCnpj(cnpj) {
-        const regex_cnpj = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
-        return regex_cnpj.test(cnpj);
-    }
-    alertaTelefone(telefone) {
-        const regex_tel = /^\(\d{2}\)\s*\d{4}-\d{4}$/;
-        return regex_tel.test(telefone);
-    }
-    alertaEmail(email) {
-        const regex_email = /^[a-zA-Z0-9._-]+@(gmail\.com|hotmail\.com|outlook\.com)$/;
-        return regex_email.test(email);
-    }
-    alertaEndereco(endereco) {
-        const regex_endereco = /^(rua|avenida)\s.+/i;
-        return regex_endereco.test(endereco);
-    }
-
-    
-    //########## *** ##########//
-    verificarCnpj(cnpj){
-        const listaFornecedores = this.consultar(cnpj);    
-
-        if (listaFornecedores.length != 0) {
-            //Achei
-            return true;
+            if (nome &&
+                cnpj &&
+                telefone &&
+                email &&
+                endereco)
+            {
+                const fornecedor = new Fornecedor(nome, cnpj, telefone, email, endereco);
+                fornecedor.gravar()
+                .then(()=>{
+                    res.status(200).json({
+                        "status":true,
+                        "mensagem":"Fornecedor adicionado com sucesso!",
+                    });
+                })
+                .catch((erro)=>{
+                    res.status(500).json({
+                        "status":false,
+                        "mensagem":"Erro ao incluir fornecedor: " + erro.message
+                    });
+                });
+            }
+            else {
+                res.status(400).json({
+                    "status":false,
+                    "mensagem":"Erro: informações invalidas!"
+                });
+            }
         } 
         else {
-            //N achei
-            return false;
+            res.status(400).json({
+                "status":false,
+                "mensagem":"Requisição inválida!, Metodo não é POST"
+            });
         }
     }
 
-    remover(cnpj) {
-        const fornecedor = new Fornecedor();
-        fornecedor.cnpj = cnpj;
-        fornecedor.remover();
+    excluir(req, res)
+    {
+        res.type("application/json");
+        if (req.method == 'DELETE')
+        {
+            const cnpj = req.params.cnpj;
+            if (cnpj && cnpj.length == 18)
+            {
+                const fornecedor = new Fornecedor();
+                fornecedor.cnpj = cnpj;
+                fornecedor.excluir()
+                .then(()=>{
+                    res.status(200).json({
+                        "status":true,
+                        "mensagem":"Fornecedor excluído com sucesso!",
+                    });
+                })
+                .catch((erro)=>{
+                    res.status(500).json({
+                        "status":false,
+                        "mensagem":"Erro ao excluir fornecedor: " + erro.message
+                    });
+                });
+            }
+            else {
+                res.status(400).json({
+                    "status":false,
+                    "mensagem":"Erro: informações invalidas!"
+                });
+            }
+        }
+        else {
+            res.status(400).json({
+                "status":false,
+                "mensagem":"Requisição inválida!, Metodo não é DELETE"
+            });
+        }
     }
 
-    //alterar(){}
+    atualizar(req, res)
+    {
+        res.type("application/json");
+        if ((req.method == 'PUT' || req.method == 'PATCH') && req.is("application/json")){
+            const nome = req.body.nome;
+            const cnpj = req.body.cnpj;
+            const telefone = req.body.telefone;
+            const email = req.body.email;
+            const endereco = req.body.endereco;
 
-    buscarAll() {
-        const fornecedor = new Fornecedor();
-        return fornecedor.buscarAll();
+            if (nome &&
+                cnpj &&
+                telefone &&
+                email &&
+                endereco)
+            {
+                const fornecedor = new Fornecedor(nome, cnpj, telefone, email, endereco);
+                fornecedor.atualizar()
+                .then(()=>{
+                    res.status(200).json({
+                        "status":true,
+                        "mensagem":"Fornecedor atualizado com sucesso!",
+                    });
+                })
+                .catch((erro)=>{
+                    res.status(500).json({
+                        "status":false,
+                        "mensagem":"Erro ao atualizar o fornecedor: " + erro.message
+                    });
+                });
+            }
+            else {
+                res.status(400).json({
+                    "status":false,
+                    "mensagem":"Erro: informações invalidas!"
+                });
+            }
+        }
+        else {
+            res.status(400).json({
+                "status":false,
+                "mensagem":"Requisição inválida!, Metodo não é PUT ou PATCH"
+            });
+        }    
     }
 
-    consultar(termo) {
-        const fornecedor = new Fornecedor();
-        return fornecedor.consultar(termo);
+    buscarAll(req, res)
+    {
+        res.type("application/json");
+        if (req.method=="GET")
+        {
+            const fornecedor = new Fornecedor();
+            fornecedor.buscarAll()
+            .then((listaFornecedores) =>{
+                res.status(200).json(listaFornecedores);
+            })
+            .catch((erro) => {
+                res.status(500).json({
+                    "status":false,
+                    "mensagem":"Erro ao buscarAll fornecedores: " + erro.message    
+                });
+            });
+        }
+        else {
+            res.status(400).json({
+                "status":false,
+                "mensagem":"Requisição inválida!, Metodo não é GET"
+            });
+        }
+    }
+
+    consultar(req, res)
+    {
+        res.type("application/json");
+        if (req.method=="GET")
+        {
+            const cnpj = req.params.cnpj;
+            if (cnpj && cnpj.length == 18)
+            {
+                const fornecedor = new Fornecedor();
+                fornecedor.consultar(cnpj)
+                .then((listaFornecedores) =>{
+                    res.status(200).json(listaFornecedores);
+                })
+                .catch((erro) => {
+                    res.status(500).json({
+                        "status":false,
+                        "mensagem":"Erro ao consultar fornecedores: " + erro.message    
+                    });
+                });
+            }
+            else {
+                res.status(400).json({
+                    "status":false,
+                    "mensagem":"Consulta Invalida!, informe um cnpj valido!"
+                });
+            }
+        }
+        else {
+            res.status(400).json({
+                "status":false,
+                "mensagem":"Requisição inválida!, Metodo não é GET"
+            });
+        }    
     }
 }

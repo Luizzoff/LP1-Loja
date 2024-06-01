@@ -1,98 +1,195 @@
 import Usuario from "../modelo/Usuario.js"
 
 export default class Controle_Usuario{
-    validar(nome, email, senha, senha_confirmacao, perfil)
+    gravar(req, res) 
     {
-        if (!this.verificarEmail(email) &&
-            !this.validarUsuario(nome) &&
-            this.validarEmail(email) &&
-            !this.vazioSenha(senha) &&
-            !this.vazioSenhaConfirmacao(senha_confirmacao) &&
-            !this.validarSenha(senha,senha_confirmacao) &&
-            !this.validarPerfil(perfil) )
-        {          
-            const usuario = new Usuario(nome, email, senha, senha_confirmacao, perfil);
-            usuario.adicionar();
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+        res.type("application/json");
+        if (req.method == 'POST' && req.is("application/json"))
+        {
+            const nome = req.body.nome;
+            const email = req.body.email;
+            const senha = req.body.senha;
+            const senha_confirmacao = req.body.senha_confirmacao;
+            const perfil = req.body.perfil;
 
-    validarUsuario(nome){
-        if (nome === "") {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    validarEmail(email){
-        const regex = /^[a-zA-Z0-9._-]+@(gmail\.com|hotmail\.com|outlook\.com)$/;
-        return regex.test(email);
-    }
-    validarSenha(senha,senha_confirmacao){
-        if (senha !== senha_confirmacao) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    vazioSenha(senha){
-        if(senha === ""){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-    vazioSenhaConfirmacao(senha_confirmacao){
-        if(senha_confirmacao === ""){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }   
-    validarPerfil(perfil){
-        if (perfil === "") {
-            return true;
-        } else {
-            return false;
-        }
-        
-    }
-    
-    
-    //########### *** ##########//
-    verificarEmail(email){
-        const listaUsuarios = this.consultar(email);    
-
-        if (listaUsuarios.length != 0) {
-            //Achei
-            return true;
+            if (nome &&
+                email &&
+                senha &&
+                senha_confirmacao &&
+                perfil)
+            {
+                const usuario = new Usuario(nome, email, senha, senha_confirmacao, perfil);
+                usuario.gravar()
+                .then(()=>{
+                    res.status(200).json({
+                        "status":true,
+                        "mensagem":"Usuario adicionado com sucesso!",
+                    });
+                })
+                .catch((erro)=>{
+                    res.status(500).json({
+                        "status":false,
+                        "mensagem":"Erro ao incluir usuario: " + erro.message
+                    });
+                });
+            }
+            else {
+                res.status(400).json({
+                    "status":false,
+                    "mensagem":"Erro: informações invalidas!"
+                });
+            }
         } 
         else {
-            //N achei
-            return false;
+            res.status(400).json({
+                "status":false,
+                "mensagem":"Requisição inválida!, Metodo não é POST"
+            });
         }
     }
-
-    remover(email){
-        const usuario = new Usuario();
-        usuario.email = email;
-        usuario.remover();
+    
+    excluir(req, res)
+    {
+        res.type("application/json");
+        if (req.method == 'DELETE')
+        {
+            const email = req.params.email;
+            if (email && email.length > 10)
+            {
+                const usuario = new Usuario();
+                usuario.email = email;
+                usuario.excluir()
+                .then(()=>{
+                    res.status(200).json({
+                        "status":true,
+                        "mensagem":"Usuario excluído com sucesso!",
+                    });
+                })
+                .catch((erro)=>{
+                    res.status(500).json({
+                        "status":false,
+                        "mensagem":"Erro ao excluir usuario: " + erro.message
+                    });
+                });
+            }
+            else {
+                res.status(400).json({
+                    "status":false,
+                    "mensagem":"Erro: informações invalidas!"
+                });
+            }
+        }
+        else {
+            res.status(400).json({
+                "status":false,
+                "mensagem":"Requisição inválida!, Metodo não é DELETE"
+            });
+        }
     }
+    
+    atualizar(req, res)
+    {
+        res.type("application/json");
+        if ((req.method == 'PUT' || req.method == 'PATCH') && req.is("application/json")){
+            const nome = req.body.nome;
+            const email = req.body.email;
+            const senha = req.body.senha;
+            const senha_confirmacao = req.body.senha_confirmacao;
+            const perfil = req.body.perfil;
 
-    //alterar(){}
-
-    buscarAll(){
-        const usuario = new Usuario();
-        return usuario.consultar();
+            if (nome &&
+                email &&
+                senha &&
+                senha_confirmacao &&
+                perfil)
+            {
+                const usuario = new Usuario(nome, email, senha, senha_confirmacao, perfil);
+                usuario.atualizar()
+                .then(()=>{
+                    res.status(200).json({
+                        "status":true,
+                        "mensagem":"Usuario atualizado com sucesso!",
+                    });
+                })
+                .catch((erro)=>{
+                    res.status(500).json({
+                        "status":false,
+                        "mensagem":"Erro ao atualizar o usuario: " + erro.message
+                    });
+                });
+            }
+            else {
+                res.status(400).json({
+                    "status":false,
+                    "mensagem":"Erro: informações invalidas!"
+                });
+            }
+        }
+        else {
+            res.status(400).json({
+                "status":false,
+                "mensagem":"Requisição inválida!, Metodo não é PUT ou PATCH"
+            });
+        }    
     }
-
-    consultar(termo){
-        const usuario = new Usuario();
-        return usuario.consultar(termo);
+    
+    buscarAll(req, res)
+    {
+        res.type("application/json");
+        if (req.method=="GET")
+        {
+            const usuario = new Usuario();
+            usuario.buscarAll()
+            .then((listaUsuarios) =>{
+                res.status(200).json(listaUsuarios);
+            })
+            .catch((erro) => {
+                res.status(500).json({
+                    "status":false,
+                    "mensagem":"Erro ao buscarAll usuarios: " + erro.message    
+                });
+            });
+        }
+        else {
+            res.status(400).json({
+                "status":false,
+                "mensagem":"Requisição inválida!, Metodo não é GET"
+            });
+        }
+    }
+    
+    consultar(req, res)
+    {
+        res.type("application/json");
+        if (req.method=="GET")
+        {
+            const email = req.params.email;
+            if (email && email.length > 10)
+            {
+                const usuario = new Usuario();
+                usuario.consultar(email)
+                .then((listaUsuarios) =>{
+                    res.status(200).json(listaUsuarios);
+                })
+                .catch((erro) => {
+                    res.status(500).json({
+                        "status":false,
+                        "mensagem":"Erro ao consultar usuarios: " + erro.message    
+                    });
+                });
+            }
+            else {
+                res.status(400).json({
+                    "status":false,
+                    "mensagem":"Consulta Invalida!, informe um email valido!"
+                });
+            }
+        }
+        else {
+            res.status(400).json({
+                "status":false,
+                "mensagem":"Requisição inválida!, Metodo não é GET"
+            });
+        }    
     }
 }

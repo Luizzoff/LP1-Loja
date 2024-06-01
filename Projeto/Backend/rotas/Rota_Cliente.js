@@ -6,9 +6,9 @@ const rota = Router();
 
 rota.get("/",clienteCtrl.buscarAll)
 .get("/:cpf", clienteCtrl.consultar)
-.post("/", clienteCtrl.adicionar)
-.put("/:cpf", clienteCtrl.alterar)
-.patch("/:cpf", clienteCtrl.alterar)
-.delete("/:cpf", clienteCtrl.remover);
+.post("/", clienteCtrl.gravar)
+.put("/:cpf", clienteCtrl.atualizar)
+.patch("/:cpf", clienteCtrl.atualizar)
+.delete("/:cpf", clienteCtrl.excluir);
 
 export default rota;

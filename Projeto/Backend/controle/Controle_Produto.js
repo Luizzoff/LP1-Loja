@@ -40,7 +40,7 @@ export default class Controle_Produto {
             else {
                 res.status(400).json({
                     "status":false,
-                    "mensagem":"Erro: Não passou no if dos alert, Campos Invalidos!"
+                    "mensagem":"Erro: informações invalidas!"
                 });
             }
         } 
@@ -60,7 +60,8 @@ export default class Controle_Produto {
             const codigo = req.params.codigo;
             if (codigo && codigo > 0)
             {
-                const produto = new Produto(codigo);
+                const produto = new Produto();
+                produto.codigo = codigo;
                 produto.excluir()
                 .then(()=>{
                     res.status(200).json({
@@ -78,7 +79,7 @@ export default class Controle_Produto {
             else {
                 res.status(400).json({
                     "status":false,
-                    "mensagem":"Erro: Não passou no if dos alert!"
+                    "mensagem":"Erro: informações invalidas!"
                 });
             }
         }
@@ -94,7 +95,7 @@ export default class Controle_Produto {
     {
         res.type("application/json");
         if ((req.method == 'PUT' || req.method == 'PATCH') && req.is("application/json")){
-            const codigo = req.params.codigo;
+            const codigo = req.body.codigo;
             const descricao = req.body.descricao;
             const precoCusto = req.body.precoCusto;
             const precoVenda = req.body.precoVenda;
@@ -102,7 +103,8 @@ export default class Controle_Produto {
             const urlImagem = req.body.urlImagem;
             const dataValidade = req.body.dataValidade;
 
-            if (descricao &&
+            if (codigo && !isNaN(parseInt(codigo)) && codigo > 0 &&
+                descricao &&
                 precoCusto && !isNaN(parseInt(precoCusto)) && precoCusto > 0 &&
                 precoVenda && !isNaN(parseInt(precoVenda)) && precoVenda > 0 &&
                 qtdEstoque && !isNaN(parseInt(qtdEstoque)) && qtdEstoque > 0 &&
@@ -114,7 +116,7 @@ export default class Controle_Produto {
                 .then(()=>{
                     res.status(200).json({
                         "status":true,
-                        "mensagem":"Produto alterado com sucesso!",
+                        "mensagem":"Produto atualizado com sucesso!",
                     });
                 })
                 .catch((erro)=>{
@@ -127,7 +129,7 @@ export default class Controle_Produto {
             else {
                 res.status(400).json({
                     "status":false,
-                    "mensagem":"Erro: Não passou no if dos alert!"
+                    "mensagem":"Erro: informações invalidas!"
                 });
             }
         }

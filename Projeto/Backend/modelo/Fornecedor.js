@@ -34,19 +34,19 @@ export default class Fornecedor {
         }
     }
 
-    async adicionar() {
+    async gravar() {
         const fornecedorDAO = new DAO_Fornecedor();
-        await fornecedorDAO.adicionar(this);
+        await fornecedorDAO.gravar(this); 
     }
 
-    async remover() {
+    async excluir() {
         const fornecedorDAO = new DAO_Fornecedor();
-        await fornecedorDAO.remover(this);
+        await fornecedorDAO.excluir(this);
     }
 
-    async alterar(){
+    async atualizar() {
         const fornecedorDAO = new DAO_Fornecedor();
-        await fornecedorDAO.alterar(this);
+        await fornecedorDAO.atualizar(this);
     }
 
     async buscarAll() {

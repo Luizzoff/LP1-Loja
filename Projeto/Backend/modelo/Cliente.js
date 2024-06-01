@@ -41,19 +41,19 @@ export default class Cliente {
             "endereco": this.#endereco
         }
     }
-    async adicionar() {
+    async gravar() {
         const clienteDAO = new DAO_Cliente();
-        await clienteDAO.adicionar(this);
+        await clienteDAO.gravar(this); 
     }
 
-    async remover() {
+    async excluir() {
         const clienteDAO = new DAO_Cliente();
-        await clienteDAO.remover(this);
+        await clienteDAO.excluir(this);
     }
 
-    async alterar(){
+    async atualizar() {
         const clienteDAO = new DAO_Cliente();
-        await clienteDAO.alterar(this);
+        await clienteDAO.atualizar(this);
     }
 
     async buscarAll() {
@@ -61,7 +61,7 @@ export default class Cliente {
         return await clienteDAO.buscarAll();
     }
 
-    async consultar(termo){
+    async consultar(termo) {
         const clienteDAO = new DAO_Cliente();
         return await clienteDAO.consultar(termo);
     }

@@ -5,13 +5,10 @@ const produtoCtrl = new Controle_Produto();
 const rota = Router();
 
 rota.get("/",produtoCtrl.buscarAll)
-rota.get("/:codigo", produtoCtrl.consultar)
-
-rota.post("/", produtoCtrl.gravar)
-
-rota.put("/:codigo", produtoCtrl.atualizar)
-rota.patch("/:codigo", produtoCtrl.atualizar)
-
-rota.delete("/:codigo", produtoCtrl.excluir)
+.get("/:codigo", produtoCtrl.consultar)
+.post("/", produtoCtrl.gravar)
+.put("/:codigo", produtoCtrl.atualizar)
+.patch("/:codigo", produtoCtrl.atualizar)
+.delete("/:codigo", produtoCtrl.excluir);
 
 export default rota;

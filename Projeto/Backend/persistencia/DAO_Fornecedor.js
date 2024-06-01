@@ -3,27 +3,33 @@ import Fornecedor from "../modelo/Fornecedor.js"
 
 export default class DAO_Fornecedor {
     constructor(){
-        this.initDataBase();
+        this.iniciaDataBase();
+    }
+    async iniciaDataBase(){
+        try {
+            const conexao = await conectar();
+            const sql = `
+                CREATE TABLE IF NOT EXISTS fornecedores (
+                    nome VARCHAR(100) NOT NULL,
+                    cnpj VARCHAR(18) NOT NULL,
+                    telefone VARCHAR(13) NOT NULL,
+                    email VARCHAR(50) NOT NULL,
+                    endereco VARCHAR(200) NOT NULL,
+                    CONSTRAINT pk_fornecedores PRIMARY KEY(cnpj)
+                )
+            `;
+            await conexao.execute(sql);
+        }
+        catch(e) {
+            console.log("Não foi possível iniciar o banco de dados: " + e.message);
+        }
     }
 
-    async initDataBase(){
-        const conexao = await conectar();
-        const sql = `
-            CREATE TABLE IF NOT EXISTS Fornecedores (
-                nome VARCHAR(100) NOT NULL,
-                cnpj VARCHAR(18) NOT NULL,
-                telefone VARCHAR(13) NOT NULL,
-                email VARCHAR(50) NOT NULL,
-                endereco VARCHAR(200) NOT NULL
-            )
-        `;
-        await conexao.execute(sql);
-    }
-
-    async adicionar(fornecedor){
+    async gravar(fornecedor){
         if(fornecedor instanceof Fornecedor){
             const conexao = await conectar();
-            const sql = `INSERT INTO Fornecedores(nome, cnpj, telefone, email, endereco)
+            const sql = `
+                INSERT INTO fornecedores(nome, cnpj, telefone, email, endereco)
                 values(?,?,?,?,?)
             `;
             let parametros = [
@@ -38,27 +44,25 @@ export default class DAO_Fornecedor {
         }
     }
 
-    async remover(fornecedor){
+    async excluir(fornecedor){
         if(fornecedor instanceof Fornecedor){
             const conexao = await conectar();
-            const sql = `DELETE FROM Fornecedores WHERE cnpj = ?`;
-            let parametros = [
-                fornecedor.cnpj
-            ];
+            const sql = `DELETE FROM fornecedores WHERE cnpj = ?`;
+            let parametros = [fornecedor.cnpj];
             await conexao.execute(sql,parametros);
             await conexao.release();
         }
     }
 
-    async alterar(fornecedor){
+    async atualizar(fornecedor){
         if(fornecedor instanceof Fornecedor){
             const conexao = await conectar();
-            const sql = `UPDATE Fornecedores SET nome=?, cnpj=?, telefone=?, email=?, endereco=?
+            const sql = `
+                UPDATE fornecedores SET nome=?, telefone=?, email=?, endereco=?
                 WHERE cnpj = ?
             `;
             let parametros = [
                 fornecedor.nome,
-                fornecedor.cnpj,
                 fornecedor.telefone,
                 fornecedor.email,
                 fornecedor.endereco,
@@ -71,8 +75,9 @@ export default class DAO_Fornecedor {
 
     async buscarAll(){
         const conexao = await conectar();
-        const sql = `SELECT * FROM Fornecedores`;
+        const sql = `SELECT * FROM fornecedores`;
         const [dataBase, campos] = await conexao.execute(sql);
+        await conexao.release();
 
         let listaFornecedores = [];
         for (const linha of dataBase){
@@ -91,9 +96,10 @@ export default class DAO_Fornecedor {
 
     async consultar(termo){
         const conexao = await conectar();
-        const sql = `SELECT * FROM Fornecedores WHERE cnpj LIKE ?`;
-        const parametros = ['%' + termo + '%'];
+        const sql = `SELECT * FROM fornecedores WHERE cnpj = ?`;
+        const parametros = [termo];
         const [dataBase, campos] = await conexao.execute(sql, parametros);
+        await conexao.release();
 
         let listaFornecedores = [];
         for (const linha of dataBase){

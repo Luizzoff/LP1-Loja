@@ -34,27 +34,27 @@ export default class Usuario {
         }
     }
 
-    async adicionar() {
+    async gravar() {
         const usuarioDAO = new DAO_Usuario();
-        await usuarioDAO.adicionar(this);
+        await usuarioDAO.gravar(this); 
     }
 
-    async remover() {
+    async excluir() {
         const usuarioDAO = new DAO_Usuario();
-        await usuarioDAO.remover(this);
+        await usuarioDAO.excluir(this);
     }
 
-    async alterar(){
+    async atualizar() {
         const usuarioDAO = new DAO_Usuario();
-        await usuarioDAO.alterar(this);
+        await usuarioDAO.atualizar(this);
     }
 
-    async buscarAll(){
+    async buscarAll() {
         const usuarioDAO = new DAO_Usuario();
         return await usuarioDAO.buscarAll();
     }
 
-    async consultar(termo){
+    async consultar(termo) {
         const usuarioDAO = new DAO_Usuario();
         return await usuarioDAO.consultar(termo);
     }

@@ -3,27 +3,33 @@ import Usuario from "../modelo/Usuario.js"
 
 export default class DAO_Usuario{
     constructor(){
-        this.initDataBase();
+        this.iniciaDataBase();
+    }
+    async iniciaDataBase(){
+        try {
+            const conexao = await conectar();
+            const sql = `
+                CREATE TABLE IF NOT EXISTS usuarios (
+                    nome VARCHAR(100) NOT NULL,
+                    email VARCHAR(50) NOT NULL,
+                    senha VARCHAR(50) NOT NULL,
+                    senha_confirmacao VARCHAR(50) NOT NULL,
+                    perfil VARCHAR(9) NOT NULL,
+                    CONSTRAINT pk_usuarios PRIMARY KEY(email)
+                )
+            `;
+            await conexao.execute(sql);
+        }
+        catch(e) {
+            console.log("Não foi possível iniciar o banco de dados: " + e.message);
+        }
     }
 
-    async initDataBase(){
-        const conexao = await conectar();
-        const sql = `
-            CREATE TABLE IF NOT EXISTS Usuarios (
-                usuario VARCHAR(100) NOT NULL,
-                email VARCHAR(50) NOT NULL,
-                senha VARCHAR(50) NOT NULL,
-                senha_confirmacao VARCHAR(50) NOT NULL,
-                perfil VARCHAR(9) NOT NULL
-            )
-        `;
-        await conexao.execute(sql);
-    }
-
-    async adicionar(usuario){
+    async gravar(usuario){
         if(usuario instanceof Usuario){
             const conexao = await conectar();
-            const sql = `INSERT INTO Usuarios(nome, email, senha, senha_confirmacao, perfil)
+            const sql = `
+                INSERT INTO usuarios(nome, email, senha, senha_confirmacao, perfil)
                 values(?,?,?,?,?)
             `;
             let parametros = [
@@ -38,27 +44,24 @@ export default class DAO_Usuario{
         }
     }
 
-    async remover(usuario){
+    async excluir(usuario){
         if(usuario instanceof Usuario){
             const conexao = await conectar();
-            const sql = `DELETE FROM Usuarios WHERE email = ?`;
-            let parametros = [
-                usuario.email
-            ];
+            const sql = `DELETE FROM usuarios WHERE email = ?`;
+            let parametros = [usuario.email];
             await conexao.execute(sql,parametros);
             await conexao.release();
         }
     }
 
-    async alterar(usuario){
+    async atualizar(usuario){
         if(usuario instanceof Usuario){
             const conexao = await conectar();
-            const sql = `UPDATE Usuarios SET nome=?, email=?, senha=?, senha_confirmacao=?, perfil=?
+            const sql = `UPDATE usuarios SET nome=?, senha=?, senha_confirmacao=?, perfil=?
                 WHERE email = ?
             `;
             let parametros = [
                 usuario.nome,
-                usuario.email,
                 usuario.senha,
                 usuario.senha_confirmacao,
                 usuario.perfil,
@@ -71,8 +74,9 @@ export default class DAO_Usuario{
 
     async buscarAll(){
         const conexao = await conectar();
-        const sql = `SELECT * FROM Usuarios`;
+        const sql = `SELECT * FROM usuarios`;
         const [dataBase, campos] = await conexao.execute(sql);
+        await conexao.release();
 
         let listaUsuarios = [];
         for (const linha of dataBase){
@@ -91,9 +95,10 @@ export default class DAO_Usuario{
 
     async consultar(termo){
         const conexao = await conectar();
-        const sql = `SELECT * FROM Usuarios WHERE email LIKE ?`;
-        const parametros = ['%' + termo + '%'];
+        const sql = `SELECT * FROM usuarios WHERE email = ?`;
+        const parametros = [termo];
         const [dataBase, campos] = await conexao.execute(sql,parametros);
+        await conexao.release();
 
         let listaUsuarios = [];
         for (const linha of dataBase){

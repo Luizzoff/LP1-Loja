@@ -17,7 +17,7 @@ export default class DAO_Produto{
                     qtdEstoque INT NOT NULL DEFAULT 0,
                     urlImagem VARCHAR(250) NOT NULL,
                     dataValidade DATE NOT NULL,
-                    CONSTRAINT pk_produto PRIMARY KEY(codigo)
+                    CONSTRAINT pk_produtos PRIMARY KEY(codigo)
                 )
             `;
             await conexao.execute(sql);
@@ -30,7 +30,8 @@ export default class DAO_Produto{
     async gravar(produto){
         if(produto instanceof Produto){
             const conexao = await conectar();
-            const sql = `INSERT INTO produtos(descricao,precoCusto,precoVenda,qtdEstoque,urlImagem,dataValidade)
+            const sql = `
+                INSERT INTO produtos(descricao, precoCusto, precoVenda, qtdEstoque, urlImagem, dataValidade)
                 values(?,?,?,?,?,str_to_date(?,'%d/%m/%Y'))
             `;
             let parametros = [
@@ -60,7 +61,8 @@ export default class DAO_Produto{
     async atualizar(produto){
         if(produto instanceof Produto){
             const conexao = await conectar();
-            const sql = `UPDATE produtos SET descricao=?,precoCusto=?,precoVenda=?,qtdEstoque=?,urlImagem=?,dataValidade=str_to_date(?,'%d/%m/%Y')
+            const sql = `
+                UPDATE produtos SET descricao=?, precoCusto=?, precoVenda=?, qtdEstoque=?, urlImagem=?, dataValidade=str_to_date(?,'%d/%m/%Y')
                 WHERE codigo = ?
             `;
             let parametros = [
@@ -81,7 +83,8 @@ export default class DAO_Produto{
         const conexao = await conectar();
         const sql = `SELECT * FROM produtos`;
         const [dataBase, campos] = await conexao.execute(sql);
-
+        await conexao.release();
+        
         let listaProdutos = [];
         for (const linha of dataBase){
             const produto = new Produto(
@@ -97,13 +100,15 @@ export default class DAO_Produto{
             listaProdutos.push(produto);
         }
         return listaProdutos;
+
     }
 
     async consultar(termo){
         const conexao = await conectar();
-        let sql = "SELECT * FROM produtos WHERE codigo = ?";
-        let parametros = [termo];
+        let sql = `SELECT * FROM produtos WHERE codigo = ?`;
+        let parametros = [termo];// parametros tem que ser um array
         const [dataBase, campos] = await conexao.execute(sql,parametros);
+        await conexao.release();
 
         let listaProdutos = [];
         for(const linha of dataBase){
