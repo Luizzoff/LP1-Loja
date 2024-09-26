@@ -1,6 +1,6 @@
 {
   "name": "servidor",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Bit Stich",
   "main": "app.js",
   "type": "module",
@@ -16,7 +16,8 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
+    "gh-pages": "^6.1.1",
     "mysql2": "^3.9.8",
     "servidor": "file:"
   }
