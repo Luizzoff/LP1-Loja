@@ -4,8 +4,11 @@
   "description": "Bit Stich",
   "main": "app.js",
   "type": "module",
+  "homepage": "https://luizzoff.github.io/LP1-LOJA",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "keywords": [
     "http",
