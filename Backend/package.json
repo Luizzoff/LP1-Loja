@@ -7,8 +7,7 @@
   "homepage": "https://luizzoff.github.io/LP1-LOJA",
   "scripts": {
     "start": "node app.js",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d ../Frontend"
   },
   "keywords": [
     "http",
